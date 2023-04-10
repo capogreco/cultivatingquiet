@@ -10,7 +10,7 @@ import { serveFile } from "https://deno.land/std@0.157.0/http/file_server.ts";
 // let update_timer = null
 
 const req_handler = async req => {
-   const path = new URL(req.url).pathname
+   // const path = new URL(req.url).pathname
 
    // const upgrade = req.headers.get ("upgrade") || ""
    // if (upgrade.toLowerCase () == "websocket") {
@@ -46,13 +46,14 @@ const req_handler = async req => {
    //    return response
    // }
 
-   let new_path = `public${ path }`
+   // let new_path = `public${ path }`
 
-   if (new_path.endsWith (`/`)) {
-      new_path += `index.html`
-   }
+   // if (new_path.endsWith (`/`)) {
+   //    new_path += `index.html`
+   // }
 
-   return serveFile (req, new_path)
+   // return serveFile (req, new_path)
+   return serveFile (req, `public/index.html`)
 }
 
 serve (req_handler, { port: 80 })
