@@ -1,112 +1,122 @@
-import { serve     } from "https://deno.land/std@0.182.0/http/server.ts";
-import { serveFile } from "https://deno.land/std@0.182.0/http/file_server.ts";
-import { openSimplexNoise3D } from "https://deno.land/x/noise/mod.ts";
-import * as uuid from "https://deno.land/std@0.119.0/uuid/mod.ts";
+import { serve } from "https://deno.land/std@0.116.0/http/server.ts";
+import staticFiles from "https://deno.land/x/static_files@1.1.6/mod.ts";
 
-const MAX = 2 ** 24
-const period = 41.66666667
-const squares = new Map ()
-let time = Date.now ()
+const serveFiles = (req: Request) => staticFiles('public')({ 
+    request: req, 
+    respondWith: (r: Response) => r 
+})
 
-const req_handler = async req => {
-   const path = new URL(req.url).pathname
+serve((req) => serveFiles(req), { addr: ':80' });
 
-   const upgrade = req.headers.get ("upgrade") || ""
-   if (upgrade.toLowerCase () == "websocket") {
+// import { serve     } from "https://deno.land/std@0.182.0/http/server.ts";
+// import { serveFile } from "https://deno.land/std@0.182.0/http/file_server.ts";
+// import { openSimplexNoise3D } from "https://deno.land/x/noise/mod.ts";
+// import * as uuid from "https://deno.land/std@0.119.0/uuid/mod.ts";
 
-      const { socket, response } = Deno.upgradeWebSocket (req)
-      const id = uuid.v1.generate ()
+// const MAX = 2 ** 24
+// const period = 41.66666667
+// const squares = new Map ()
+// let time = Date.now ()
 
-      socket.onopen = () => {
+// const req_handler = async req => {
+//    const path = new URL(req.url).pathname
 
-         squares.set (id, new FloatingSquare (socket))
-         console.log (`welcome, ${ id }.`)
+//    const upgrade = req.headers.get ("upgrade") || ""
+//    if (upgrade.toLowerCase () == "websocket") {
 
-         const data = { 
-            'type' : `id`,
-            'body' : id,
-         }
+//       const { socket, response } = Deno.upgradeWebSocket (req)
+//       const id = uuid.v1.generate ()
 
-         socket.send (JSON.stringify (data))
+//       socket.onopen = () => {
 
-      }
+//          squares.set (id, new FloatingSquare (socket))
+//          console.log (`welcome, ${ id }.`)
 
-      socket.onerror = e => console.log(`socket error: ${ e.message }`)
+//          const data = { 
+//             'type' : `id`,
+//             'body' : id,
+//          }
 
-      socket.onclose = () => {
-         squares.delete (id)
-      }
+//          socket.send (JSON.stringify (data))
 
-      socket.onmessage = e => {
-         const obj = JSON.parse (e.data)
-         console.log (`message recieved: ${ obj }`)
-      }
+//       }
 
-      return response
-   }
+//       socket.onerror = e => console.log(`socket error: ${ e.message }`)
 
-   let new_path = `public${ path }`
+//       socket.onclose = () => {
+//          squares.delete (id)
+//       }
 
-   if (new_path.endsWith (`/`)) {
-      new_path += `index.html`
-   }
+//       socket.onmessage = e => {
+//          const obj = JSON.parse (e.data)
+//          console.log (`message recieved: ${ obj }`)
+//       }
 
-   return serveFile (req, new_path)
-}
+//       return response
+//    }
 
-serve (req_handler, { port: 80 })
+//    let new_path = `public${ path }`
 
-function update () {
-   time += period
+//    if (new_path.endsWith (`/`)) {
+//       new_path += `index.html`
+//    }
 
-   squares.forEach ((s, i) => {
-      s.send_data (time)
-   })
+//    return serveFile (req, new_path)
+// }
 
-   check_squares ()
+// serve (req_handler, { port: 80 })
 
-   setTimeout (update, period)
-}
+// function update () {
+//    time += period
 
-update ()
+//    squares.forEach ((s, i) => {
+//       s.send_data (time)
+//    })
 
-class FloatingSquare {
-   constructor(websocket) {
-      this.ws       = websocket
-      this.speed    = 0.0001
-      this.noise3D  = openSimplexNoise3D (Math.random () * MAX)
-      this.x = Math.random () * MAX
-      this.y = Math.random () * MAX
-      this.z = Math.random () * MAX
-   }
+//    check_squares ()
 
-   send_data(t) {
-      const adj_t = t * this.speed
-      const x_pos = this.noise3D(adj_t + this.x, this.y, this.z)
-      const y_pos = this.noise3D(this.x, adj_t + this.y, this.z)
-      const z_pos = this.noise3D(this.x, this.y, adj_t + this.z)
+//    setTimeout (update, period)
+// }
 
-      const data = {
-         'type' : `data`,
-         'body' : [ x_pos, y_pos, z_pos ]
-      }
+// update ()
 
-      this.ws.send (JSON.stringify (data))
-   }
-}
+// class FloatingSquare {
+//    constructor(websocket) {
+//       this.ws       = websocket
+//       this.speed    = 0.0001
+//       this.noise3D  = openSimplexNoise3D (Math.random () * MAX)
+//       this.x = Math.random () * MAX
+//       this.y = Math.random () * MAX
+//       this.z = Math.random () * MAX
+//    }
+
+//    send_data(t) {
+//       const adj_t = t * this.speed
+//       const x_pos = this.noise3D(adj_t + this.x, this.y, this.z)
+//       const y_pos = this.noise3D(this.x, adj_t + this.y, this.z)
+//       const z_pos = this.noise3D(this.x, this.y, adj_t + this.z)
+
+//       const data = {
+//          'type' : `data`,
+//          'body' : [ x_pos, y_pos, z_pos ]
+//       }
+
+//       this.ws.send (JSON.stringify (data))
+//    }
+// }
 
 
-function check_squares () {
-   if (squares.length == 0) return
+// function check_squares () {
+//    if (squares.length == 0) return
 
-   const removals = []
+//    const removals = []
 
-   squares.forEach (s => {
-      if (s.ws.readyState == 3) removals.push (s.key)
-   })
+//    squares.forEach (s => {
+//       if (s.ws.readyState == 3) removals.push (s.key)
+//    })
 
-   if (removals.length) removals.forEach (id => {
-         squares.delete (id)
-   })
-}
+//    if (removals.length) removals.forEach (id => {
+//          squares.delete (id)
+//    })
+// }
 
