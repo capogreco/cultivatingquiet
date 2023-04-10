@@ -55,22 +55,19 @@ const req_handler = async req => {
    return serveFile (req, new_path)
 }
 
-
 serve (req_handler, { port: 80 })
 
+// function update () {
+//    time += period
 
+//    squares.forEach ((s, i) => {
+//       s.send_data (time)
+//    })
 
-function update () {
-   time += period
+//    update_timer = setTimeout (update, period)
+// }
 
-   squares.forEach ((s, i) => {
-      s.send_data (time)
-   })
-
-   update_timer = setTimeout (update, period)
-}
-
-update ()
+// update ()
 
 class FloatingSquare {
    constructor(websocket) {
