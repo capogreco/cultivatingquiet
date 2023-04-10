@@ -7,7 +7,6 @@ const MAX = 2 ** 24
 const period = 41.66666667
 const squares = new Map ()
 let time = Date.now ()
-let update_timer = null
 
 const req_handler = async req => {
    const path = new URL(req.url).pathname
@@ -66,7 +65,7 @@ function update () {
 
    check_squares ()
 
-   update_timer = setTimeout (update, period)
+   setTimeout (update, period)
 }
 
 update ()
