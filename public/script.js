@@ -3,7 +3,7 @@ document.body.style.overflow = `hidden`
 document.body.style.background = `black`
 
 // const ws_address = `ws://localhost/`
-const ws_address = `wss://cultivatingquiet.space/`
+const ws_address = `wss://capogreco-cultivatingquiet.deno.dev/`
 
 const socket = new WebSocket (ws_address)
 
