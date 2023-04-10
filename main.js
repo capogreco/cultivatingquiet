@@ -1,13 +1,13 @@
 import { serve } from "https://deno.land/std@0.157.0/http/server.ts";
 import { serveFile } from "https://deno.land/std@0.157.0/http/file_server.ts";
-import { openSimplexNoise3D } from "https://deno.land/x/noise/mod.ts";
-import * as uuid from "https://deno.land/std@0.119.0/uuid/mod.ts";
+// import { openSimplexNoise3D } from "https://deno.land/x/noise/mod.ts";
+// import * as uuid from "https://deno.land/std@0.119.0/uuid/mod.ts";
 
-const MAX = 2 ** 24
-const period = 41.66666667
-const squares = new Map ()
-let time = Date.now ()
-let update_timer = null
+// const MAX = 2 ** 24
+// const period = 41.66666667
+// const squares = new Map ()
+// let time = Date.now ()
+// let update_timer = null
 
 const req_handler = async req => {
    const path = new URL(req.url).pathname
