@@ -2,8 +2,8 @@ document.body.style.margin   = 0
 document.body.style.overflow = `hidden`
 document.body.style.background = `black`
 
-const ws_address = `ws://localhost/`
-// const ws_address = `wss://cultivatingquiet.space/`
+// const ws_address = `ws://localhost/`
+const ws_address = `wss://cultivatingquiet.space/`
 
 const socket = new WebSocket (ws_address)
 

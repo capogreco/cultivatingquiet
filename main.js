@@ -107,7 +107,7 @@ function check_squares () {
    })
 
    if (removals.length) removals.forEach (id => {
-         sockets.delete (id)
+         squares.delete (id)
    })
 }
 
