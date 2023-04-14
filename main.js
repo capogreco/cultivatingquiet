@@ -91,11 +91,12 @@ class FloatingSquare {
          }
       }
 
+      console.log (`sending ${ data }`)
+
       this.ws.send (JSON.stringify (data))
 
    }
 }
-
 
 function check_squares () {
    if (squares.length == 0) return
