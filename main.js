@@ -1,7 +1,7 @@
 
 import { serve     } from "https://deno.land/std@0.182.0/http/server.ts";
 import { serveFile } from "https://deno.land/std@0.182.0/http/file_server.ts";
-import { openSimplexNoise3D } from "https://deno.land/x/noise/mod.ts";
+import { openSimplexNoise2D } from "https://deno.land/x/noise/mod.ts";
 import * as uuid from "https://deno.land/std@0.119.0/uuid/mod.ts";
 
 const MAX = 2 ** 24
@@ -74,25 +74,25 @@ update ()
 class FloatingSquare {
    constructor(websocket) {
       this.ws       = websocket
-      this.speed    = 0.0001
-      this.noise3D  = openSimplexNoise3D (Math.random () * MAX)
+      this.speed    = 0.0004
+      this.noise2D  = openSimplexNoise2D (Math.random () * MAX)
       this.x = Math.random () * MAX
       this.y = Math.random () * MAX
-      this.z = Math.random () * MAX
    }
 
-   send_data(t) {
+   send_data (t) {
       const adj_t = t * this.speed
-      const x_pos = this.noise3D(adj_t + this.x, this.y, this.z)
-      const y_pos = this.noise3D(this.x, adj_t + this.y, this.z)
-      const z_pos = this.noise3D(this.x, this.y, adj_t + this.z)
 
       const data = {
-         'type' : `data`,
-         'body' : [ x_pos, y_pos, z_pos ]
+         type : `data`,
+         body : {
+            x: this.noise2D (adj_t + this.x, this.y),
+            y: this.noise2D (this.x, adj_t + this.y)
+         }
       }
 
       this.ws.send (JSON.stringify (data))
+
    }
 }
 
