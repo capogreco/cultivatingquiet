@@ -5,7 +5,8 @@ import { openSimplexNoise2D } from "https://deno.land/x/noise/mod.ts";
 import * as uuid from "https://deno.land/std@0.119.0/uuid/mod.ts";
 
 const MAX = 2 ** 24
-const period = 41.66666667
+// const period = 41.66666667
+const period = 200
 const squares = new Map ()
 let time = Date.now ()
 
@@ -74,7 +75,7 @@ update ()
 class FloatingSquare {
    constructor(websocket) {
       this.ws       = websocket
-      this.speed    = 0.0004
+      this.speed    = 0.0001
       this.noise2D  = openSimplexNoise2D (Math.random () * MAX)
       this.x = Math.random () * MAX
       this.y = Math.random () * MAX
@@ -91,9 +92,7 @@ class FloatingSquare {
          }
       }
 
-      console.log (`sending ${ JSON.stringify (data) }`)
-
-      if (this.ws.readyState == 2) this.ws.send (JSON.stringify (data))
+      if (this.ws.readyState == 1) this.ws.send (JSON.stringify (data))
 
    }
 }
