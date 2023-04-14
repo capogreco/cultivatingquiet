@@ -55,12 +55,7 @@ class Squuare {
    }
 
    switch_colour () {
-      // if (this.child_exists) {
-      //    this.child.switch_colour ()
-      // }
-
       const is_black = this.colour == `black`
-      console.log (`${ this.cur_gen } is_black ${ is_black }`)
       this.colour = is_black ? `white` : `black`
    }
 
