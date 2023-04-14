@@ -2,8 +2,8 @@ document.body.style.margin   = 0
 document.body.style.overflow = `hidden`
 document.body.style.background = `black`
 
-const ws_address = `ws://localhost/`
-// const ws_address = `wss://cultivatingquiet.space/`
+// const ws_address = `ws://localhost/`
+const ws_address = `wss://cultivatingquiet.space/`
 
 const socket = new WebSocket (ws_address)
 
@@ -89,7 +89,7 @@ class Squuare {
       let colour_sig = this.frame_count * 0.001 * Math.PI
       colour_sig = Math.cos (colour_sig) + 1
       colour_sig *= 127.5
-      
+
       this.ctx.fillStyle = `rgb(${ colour_sig }, ${ colour_sig }, ${ colour_sig })` 
       this.ctx.fillRect (x, y, new_size.x, new_size.y)
 
