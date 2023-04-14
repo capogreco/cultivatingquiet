@@ -9,7 +9,8 @@ const socket = new WebSocket (ws_address)
 
 socket.onmessage = msg => {
    const obj = JSON.parse (msg.data)
-   // console.dir (`${ obj.type } message recieved: `, obj)
+   console.dir (`${ obj.type } message recieved: `, obj.body)
+   
    if (obj.type == `data`) {
       squuare.update_pos (obj.body)
    }
