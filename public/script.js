@@ -16,9 +16,19 @@ socket.onmessage = msg => {
 }
 
 const cnv = document.getElementById (`cnv`)
-cnv.width = innerWidth
-cnv.height = innerHeight
 const ctx = cnv.getContext(`2d`)
+
+function resize_canvas () {
+   cnv.width = innerWidth
+   cnv.height = innerHeight
+}
+
+resize_canvas ()
+
+window.onresize = resize_canvas
+
+
+
 
 class Squuare {
    constructor (ctx) {
@@ -120,4 +130,3 @@ function draw_frame () {
 
 draw_frame ()
 
-document.onresize = () => location.reload ()
