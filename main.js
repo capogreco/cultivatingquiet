@@ -93,7 +93,7 @@ class FloatingSquare {
 
       console.log (`sending ${ data }`)
 
-      this.ws.send (JSON.stringify (data))
+      if (this.ws.readyState == 2) this.ws.send (JSON.stringify (data))
 
    }
 }
