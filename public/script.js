@@ -22,8 +22,6 @@ const ctx = cnv.getContext(`2d`)
 
 class Squuare {
    constructor (ctx) {
-      console.log (`constructing!`)
-
       this.ctx = ctx
 
       this.frame_count = 1
@@ -115,14 +113,12 @@ class Squuare {
    }
 
    birth () {
-      console.log (`${ this.cur_gen } is birthing`)
       if (this.cur_gen < this.tot_gen) {
          this.child = new Squuare (this.ctx)
          this.child_exists = true
          this.child.cur_gen = this.cur_gen + 1
          Object.assign (this.child.pos, this.last_pos)
       }
-      // else debugger
    }
 }
 
