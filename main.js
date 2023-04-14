@@ -5,8 +5,8 @@ import { openSimplexNoise2D } from "https://deno.land/x/noise/mod.ts";
 import * as uuid from "https://deno.land/std@0.119.0/uuid/mod.ts";
 
 const MAX = 2 ** 24
-// const period = 41.66666667
-const period = 200
+const period = 41.66666667
+// const period = 200
 const squares = new Map ()
 let time = Date.now ()
 
