@@ -2,15 +2,15 @@ document.body.style.margin   = 0
 document.body.style.overflow = `hidden`
 document.body.style.background = `black`
 
-const ws_address = `ws://localhost/`
-// const ws_address = `wss://cultivatingquiet.space/`
+// const ws_address = `ws://localhost/`
+const ws_address = `wss://cultivatingquiet.space/`
 
 const socket = new WebSocket (ws_address)
 
 socket.onmessage = msg => {
    const obj = JSON.parse (msg.data)
    
-   if (obj.type == `data`) {
+   if (obj.type == `data` && !squuare.is_pressed) {
       squuare.update_pos (obj.body)
    }
 }
@@ -152,8 +152,18 @@ class Squuare {
       const in_B = e.y < coords.y + this.size.y
       console.log (this.pos)
       console.log (in_L, in_T, in_R, in_B)
+
       if (in_L && in_T && in_R && in_B) {
          this.is_pressed = true
+         this.pos.x = (e.x * 2 / innerWidth)  - 1
+         this.pos.y = (e.y * 2 / innerHeight) - 1
+      }
+   }
+
+   on_pointer_move (e) {
+      if (this.is_pressed) {
+         this.pos.x = (e.x * 2 / innerWidth)  - 1
+         this.pos.y = (e.y * 2 / innerHeight) - 1
       }
    }
 
@@ -167,6 +177,7 @@ const squuare = new Squuare (ctx)
 // console.dir (cnv)
 
 cnv.onpointerdown = e => squuare.on_pointer_down (e)
+cnv.onpointermove = e => squuare.on_pointer_move (e)
 cnv.onpointerup   = e => squuare.on_pointer_up ()
 
 function draw_frame () {
