@@ -96,7 +96,7 @@ class Squuare {
       y *= mid.y
       y -= new_size.y / 2
 
-      let colour_sig = this.frame_count * 0.001 * Math.PI
+      let colour_sig = (this.frame_count / (this.tot_gen * 8)) * Math.PI
       colour_sig = Math.cos (colour_sig) + 1
       colour_sig *= 127.5
 
