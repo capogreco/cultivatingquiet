@@ -6,6 +6,7 @@ document.body.style.background = `black`
 const ws_address = `wss://cultivatingquiet.space/`
 
 const socket = new WebSocket (ws_address)
+let sock_check_on = false
 
 socket.onmessage = msg => {
    const obj = JSON.parse (msg.data)
@@ -13,6 +14,16 @@ socket.onmessage = msg => {
    if (obj.type == `data` && !squuare.is_pressed) {
       squuare.update_pos (obj.body)
    }
+
+   if (!sock_check_on) {
+      setTimeout (sock_check, 1000)
+      sock_check_on = true
+   }
+}
+
+function sock_check () {
+   if (socket.readyState > 1) location.reload ()
+   setTimeout (sock_check, 1000)
 }
 
 const cnv = document.getElementById (`cnv`)
