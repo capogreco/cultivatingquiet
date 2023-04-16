@@ -161,8 +161,6 @@ class Squuare {
       const in_T = e.y > coords.y
       const in_R = e.x < coords.x + this.size.x
       const in_B = e.y < coords.y + this.size.y
-      console.log (this.pos)
-      console.log (in_L, in_T, in_R, in_B)
 
       if (in_L && in_T && in_R && in_B) {
          this.is_pressed = true
